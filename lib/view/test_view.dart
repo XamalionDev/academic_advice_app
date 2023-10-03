@@ -85,7 +85,7 @@ class _TestViewState extends State<TestView> {
             const Text('Sign out'),
             ElevatedButton(
                 onPressed: (){
-                  signOut().then((value) =>
+                  signOut().then((_) =>
                       setState(() {
                         messageCurrentUser = 'User log-out';
                       })
