@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "945126472139",
+    "project_id": "academic-advice-application",
+    "storage_bucket": "academic-advice-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945126472139:android:1ecde51a10730962969e4e",
+        "android_client_info": {
+          "package_name": "mx.tecnm.cdhidalgo.academic_advice_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg102x9nRcO-jkoFqyd9ZLWKJOnYUAnkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
