@@ -1,4 +1,4 @@
-import 'package:academic_advice_app/controller/test_controller.dart';
+import 'package:academic_advice_app/controller/auth_controller.dart';
 import 'package:academic_advice_app/view/home_view.dart';
 import 'package:academic_advice_app/view/login_view.dart';
 import 'package:academic_advice_app/view/register_view.dart';
