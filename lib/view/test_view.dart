@@ -74,7 +74,7 @@ class _TestViewState extends State<TestView> {
                 onPressed: (){
                   getUser().then((value) =>
                       setState(() {
-                        messageCurrentUser = value;
+                        messageCurrentUser = value ? 'User log-in' : 'User log-out';
                       })
                   );
                 },
