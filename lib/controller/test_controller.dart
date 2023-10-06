@@ -14,5 +14,5 @@ Future<void> signOut() async {
 
 Future<String> getUser() async {
   String? email = getCurrentUser()?.email;
-  return email ?? 'User no sign-in.';
+  return email ?? 'No user';
 }
