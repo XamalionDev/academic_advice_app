@@ -28,7 +28,7 @@ class LoginScreen extends ConsumerWidget {
                   SystemChannels.textInput.invokeMethod('TextInput.hide');
                 },
                 icon: const Icon(Icons.arrow_drop_down)),
-            const LoginForm()
+            const LoginForm(),
           ],
         )
       ),

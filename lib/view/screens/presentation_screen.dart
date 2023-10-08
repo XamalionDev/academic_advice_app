@@ -10,7 +10,7 @@ class PresentationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widthScreen = MediaQuery.of(context).size.width;;
+    final widthScreen = MediaQuery.of(context).size.width;
     final heightLogin = ref.watch(heightLoginProvider);
     final heightRegister = ref.watch(heightRegisterProvider);
 
