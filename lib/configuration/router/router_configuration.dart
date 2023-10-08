@@ -1,20 +1,24 @@
 import 'package:academic_advice_app/controller/auth_controller.dart';
-import 'package:academic_advice_app/view/home_view.dart';
-import 'package:academic_advice_app/view/login_view.dart';
-import 'package:academic_advice_app/view/register_view.dart';
+import 'package:academic_advice_app/view/screens/home_screen.dart';
+import 'package:academic_advice_app/view/screens/presentation_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final routerConfig = GoRouter(
-    initialLocation: '/login_view',
+    initialLocation: '/login_screen',
     routes: [
       GoRoute(
-          path: '/home_view', builder: (context, state) => const HomeView()),
+          path: '/home_screen',
+          name: HomeScreen.routeName,
+          builder: (context, state) => const HomeScreen()),
       GoRoute(
-          path: '/login_view', builder: (context, state) => const LoginView()),
-      GoRoute(
-          path: '/register_view',
-          builder: (context, state) => const RegisterView()),
+          path: '/presentation_screen',
+          name: PresentationScreen.routeName,
+          builder: (context, state) => const PresentationScreen()),
+      /*GoRoute(
+          path: '/register_screen',
+          name: RegisterScreen.routeName,
+          builder: (context, state) => const RegisterScreen()),*/
     ],
     redirect: (context, state) async {
-      return await getUser() ? '/home_view' : '/login_view';
+      return await getUser() ? '/home_screen' : '/presentation_screen';
     });
