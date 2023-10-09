@@ -19,15 +19,19 @@ class PresentationScreen extends ConsumerWidget {
         children: [
           const SafeArea(child: LogosScreen()),
           const SafeArea(child: MainScreen()),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: LoginScreen(
-              heightLogin: heightLogin,
-              widthLogin: widthScreen)
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: LoginScreen(
+                heightLogin: heightLogin,
+                widthLogin: widthScreen)
+            ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: RegisterScreen(heightRegister: heightRegister, widthRegister: widthScreen),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: RegisterScreen(heightRegister: heightRegister, widthRegister: widthScreen),
+            ),
           )
         ],
       )
