@@ -18,7 +18,12 @@ class PresentationScreen extends ConsumerWidget {
       body: Stack(
         children: [
           const SafeArea(child: LogosScreen()),
-          const SafeArea(child: MainScreen()),
+          const SafeArea(
+            child: Align(
+              alignment: Alignment.center,
+                child: MainScreen()
+            )
+          ),
           SafeArea(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -66,66 +71,68 @@ class MainScreen extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'Tecnológico Nacional de México\nCampus Ciudad Hidalgo',
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'PROGRAMA DE ASESORÍAS ACADÉMICAS\nDE CIENCIAS BÁSICAS',
-            style: TextStyle(
-              fontSize: 18.0,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const Text(
-            'AsparTec',
-            style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.w800
-            ),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton.icon(
-                  onPressed: (){
-                    ref.read(heightLoginProvider.notifier).state = heightScreen * 0.55;
-                  },
-                  icon: const Icon(Icons.login_sharp),
-                  label: const Text('Iniciar sesión')
-              ),
-            ],
-          ),
-          const SizedBox(width: 10),
-          const Text(
-              'o',
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'Tecnológico Nacional de México\nCampus Ciudad Hidalgo',
               style: TextStyle(
                 fontSize: 16.0,
-              )
-          ),
-          const SizedBox(width: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton.icon(
-                  onPressed: (){
-                    ref.read(heightRegisterProvider.notifier).state = heightScreen * 0.8;
-                  },
-                  icon: const Icon(Icons.app_registration_sharp),
-                  label: const Text('Registrarse')
               ),
-            ],
-          )
-        ],
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'PROGRAMA DE ASESORÍAS ACADÉMICAS\nDE CIENCIAS BÁSICAS',
+              style: TextStyle(
+                fontSize: 18.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Text(
+              'AsparTec',
+              style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.w800
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                    onPressed: (){
+                      ref.read(heightLoginProvider.notifier).state = heightScreen * 0.55;
+                    },
+                    icon: const Icon(Icons.login_sharp),
+                    label: const Text('Iniciar sesión')
+                ),
+              ],
+            ),
+            const SizedBox(width: 10),
+            const Text(
+                'o',
+                style: TextStyle(
+                  fontSize: 16.0,
+                )
+            ),
+            const SizedBox(width: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                    onPressed: (){
+                      ref.read(heightRegisterProvider.notifier).state = heightScreen * 0.8;
+                    },
+                    icon: const Icon(Icons.app_registration_sharp),
+                    label: const Text('Registrarse')
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
