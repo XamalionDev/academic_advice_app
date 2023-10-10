@@ -1,4 +1,6 @@
 import 'package:academic_advice_app/model/providers/height_provider.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_password_field.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,55 +52,24 @@ class _LoginFormState extends State<LoginForm> {
   bool showPassword = true;
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextFormField(
-            validator: (value) {
-              return (value == null || value.isEmpty) ? 'Ingrese algún valor' : null;
-            },
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: 'Correo electrónico',
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10)
-              ),
-            ),
-          ),
+          CustomTextField(label: 'Email', controller: emailController, inputType: TextInputType.emailAddress, empty: false),
           const SizedBox(height: 10),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Ingresa algún valor';
-              } else if (value.length < 6){
-                return 'Minimo 6 caracteres';
-              } else {
-                return null;
-              }
-            },
-            controller: passwordController,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: InputDecoration(
-                labelText: 'Contraseña',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                suffixIcon: IconButton(
-                    onPressed: (){
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(showPassword ? Icons.visibility_off : Icons.visibility))
-            ),
-            obscureText: showPassword
-          ),
+          CustomPasswordField(controller: passwordController),
           const SizedBox(height: 20),
           OutlinedButton(
               onPressed: (){

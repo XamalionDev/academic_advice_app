@@ -1,5 +1,9 @@
-import 'package:academic_advice_app/model/enums/enums.dart';
 import 'package:academic_advice_app/model/providers/height_provider.dart';
+import 'package:academic_advice_app/model/static_data/enums.dart';
+import 'package:academic_advice_app/model/static_data/lists.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_dropdown_field.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_password_field.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,12 +35,7 @@ class RegisterScreen extends ConsumerWidget {
                 },
                 icon: const Icon(Icons.arrow_drop_down)),
             const SizedBox(height: 10),
-            const RegisterForm(),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Registrarse'),
-            ),
+            const RegisterForm()
           ],
         ),
       ),
@@ -53,17 +52,61 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   UserRoles _userRole = UserRoles.Advisee;
-  String dropdownValue = Genders.Otro.name;
+
   final _formKey = GlobalKey<FormState>();
-  bool showPassword = true;
+  final nameController = TextEditingController();
+  final lastName1Controller = TextEditingController();
+  final lastName2Controller = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  ValueNotifier<String> gender = ValueNotifier('--Seleccionar--');
+  ValueNotifier<String> degreeProgram = ValueNotifier('--Seleccionar--');
+  ValueNotifier<String> semester = ValueNotifier('--Seleccionar--');
+  final numControlController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  _genderListener(){
+
+  }
+  _degreeProgramListener() {
+
+  }
+
+  _semesterListener() {
+
+  }
+
+  @override
+  void dispose() {
+    gender.removeListener(_genderListener);
+    degreeProgram.removeListener(_degreeProgramListener);
+    semester.removeListener(_semesterListener);
+
+    nameController.dispose();
+    lastName1Controller.dispose();
+    lastName2Controller.dispose();
+    phoneNumberController.dispose();
+    gender.dispose();
+    degreeProgram.dispose();
+    semester.dispose();
+    numControlController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    gender.addListener(_genderListener);
+    degreeProgram.addListener(_degreeProgramListener);
+    semester.addListener(_semesterListener);
+
     return Form(
       key: _formKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
 /******************************************************************************/
           const Text('Perfil:'),
@@ -100,84 +143,15 @@ class _RegisterFormState extends State<RegisterForm> {
             thickness: 1,
           ),
           const SizedBox(height: 10),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Nombre(s)',
-            ),
-          ),
+          CustomTextField(label: 'Nombre(s)', controller: nameController, inputType: TextInputType.text, empty: false),
           const SizedBox(height: 10),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Apellido paterno',
-            ),
-          ),
+          CustomTextField(label: 'Primer apellido', controller: lastName1Controller, inputType: TextInputType.text, empty: false),
           const SizedBox(height: 10),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Apellido materno',
-            ),
-          ),
+          CustomTextField(label: 'Segundo apellido (Opcional)', controller: lastName2Controller, inputType: TextInputType.text, empty: true),
           const SizedBox(height: 10),
-          TextFormField(
-            keyboardType: TextInputType.phone,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Teléfono',
-            ),
-          ),
+          CustomTextField(label: 'Teléfono', controller: phoneNumberController, inputType: TextInputType.phone, empty: false),
           const SizedBox(height: 10),
-          DropdownButtonFormField(
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Género',
-            ),
-            value: dropdownValue,
-            style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            icon: const Icon(Icons.arrow_drop_down),
-            elevation: 16,
-            onChanged: (newValue) {
-              setState(() {
-                dropdownValue = newValue.toString();
-              });
-            },
-            items: (Genders.values).map<DropdownMenuItem<String>>((Genders value) {
-              return DropdownMenuItem<String>(
-                alignment: AlignmentDirectional.centerStart,
-                value: value.name,
-                child: Text(value.name),
-              );
-            }).toList(),
-          ),
+          CustomDropdownField(label: 'Género', items: gendersList, dropdownValue: gender),
           const SizedBox(height: 25),
 
 /******************************************************************************/
@@ -187,18 +161,11 @@ class _RegisterFormState extends State<RegisterForm> {
             thickness: 1,
           ),
           const SizedBox(height: 10),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            decoration: InputDecoration(
-              border: setBorder(),
-              labelText: 'Name',
-            ),
-          ),
+          CustomDropdownField(label: 'Programa educativo', items: degreeProgramList, dropdownValue: degreeProgram),
+          const SizedBox(height: 10),
+          CustomDropdownField(label: 'Semestre', items: semesterList, dropdownValue: semester),
+          const SizedBox(height: 10),
+          CustomTextField(label: 'Número de control', controller: numControlController, inputType: TextInputType.text, empty: false),
           const SizedBox(height: 25),
 
 /******************************************************************************/
@@ -208,52 +175,21 @@ class _RegisterFormState extends State<RegisterForm> {
             thickness: 1,
           ),
           const SizedBox(height: 10),
-          TextFormField(
-            validator: (value) {
-              return (value == null || value.isEmpty) ? 'Ingrese algún valor' : null;
+          CustomTextField(label: 'Correo electrónico', controller: emailController, inputType: TextInputType.emailAddress, empty: false),
+          const SizedBox(height: 10),
+          CustomPasswordField(controller: passwordController),
+          const SizedBox(height: 25),
+          ElevatedButton(
+            onPressed: () {
+              if(_formKey.currentState!.validate()) {
+
+              }
             },
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: 'Correo electrónico',
-              border: setBorder(),
-            ),
+            child: const Text('Registrarse'),
           ),
-          const SizedBox(height: 10),
-          TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Ingresa algún valor';
-                } else if (value.length < 6){
-                  return 'Minimo 6 caracteres';
-                } else {
-                  return null;
-                }
-              },
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  border: setBorder(),
-                  suffixIcon: IconButton(
-                      onPressed: (){
-                        setState(() {
-                          showPassword = !showPassword;
-                        });
-                      },
-                      icon: Icon(showPassword ? Icons.visibility_off : Icons.visibility))
-              ),
-              obscureText: showPassword
-          ),
-          const SizedBox(height: 10),
         ],
       )
     );
   }
-
-  InputBorder setBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10)
-    );
-  }
-
 }
 
