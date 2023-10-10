@@ -1,4 +1,4 @@
-import 'package:academic_advice_app/view/custom_widgets/custom_settings.dart';
+import 'package:academic_advice_app/model/validations/forms_validation.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
