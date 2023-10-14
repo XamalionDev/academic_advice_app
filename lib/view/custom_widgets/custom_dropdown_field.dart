@@ -18,8 +18,10 @@ class CustomDropdownField extends StatefulWidget {
 }
 
 class _CustomDropdownField222 extends State<CustomDropdownField> {
+
   @override
   Widget build(BuildContext context) {
+
     return ValueListenableBuilder(
       valueListenable: widget.dropdownValue,
       builder: (context, String value, _) {
@@ -32,7 +34,7 @@ class _CustomDropdownField222 extends State<CustomDropdownField> {
             labelText: widget.label,
           ),
           value: value.isEmpty ? null : value,
-          style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          style: const TextStyle(fontWeight: FontWeight.normal),
           icon: const Icon(Icons.arrow_drop_down),
           elevation: 16,
           onChanged: (String? newValue) {

@@ -1,9 +1,13 @@
+import 'package:academic_advice_app/controller/auth_controller.dart';
+import 'package:academic_advice_app/model/dialogs/error_dialog.dart';
 import 'package:academic_advice_app/model/providers/height_provider.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_password_field.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_text_field.dart';
+import 'package:academic_advice_app/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends ConsumerWidget {
   final double heightLogin;
@@ -110,14 +114,6 @@ class _LoginFormState extends State<LoginForm> {
   bool showPassword = true;
 
   @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -132,7 +128,15 @@ class _LoginFormState extends State<LoginForm> {
           OutlinedButton(
               onPressed: (){
                 if(_formKey.currentState!.validate()) {
-
+                  signIn(emailController.text.trim(), passwordController.text.trim())
+                  .then((value){
+                    if(value == 'Success'){
+                      SystemChannels.textInput.invokeMethod('TextInput.hide');
+                      context.pushNamed(HomeScreen.routeName);
+                    }else{
+                      openDialog(context, 'Error de inicio de sesión', value);
+                    }
+                  });
                 }
               },
               child: const Text('Entrar')
