@@ -13,26 +13,84 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final color = Theme.of(context).cardColor;
 
     return AnimatedContainer(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset.fromDirection(6, 0.5),
+            blurRadius: 0.3
+          ),
+          BoxShadow(
+              color: Colors.grey,
+              offset: Offset.fromDirection(6, 0.5),
+              blurRadius: 0.3
+          ),
+          BoxShadow(
+              color: Colors.grey,
+              offset: Offset.fromDirection(6, 0.5),
+              blurRadius: 0.3
+          ),
+          BoxShadow(
+              color: Colors.grey,
+              offset: Offset.fromDirection(6, 0.5),
+              blurRadius: 0.3
+          )
+        ],
+        color: color,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15)
+        )
+      ),
       duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
       height: heightLogin,
       width: widthLogin,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            IconButton(
-                onPressed: (){
-                  ref.read(heightLoginProvider.notifier).state = 0.0;
-                  SystemChannels.textInput.invokeMethod('TextInput.hide');
-                },
-                icon: const Icon(Icons.arrow_drop_down)),
-            const LoginForm(),
-          ],
-        )
+      child: Align(
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              IconButton(
+                  onPressed: (){
+                    ref.read(heightLoginProvider.notifier).state = 0.0;
+                    SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  },
+                  icon: const Icon(Icons.arrow_drop_down)),
+              const Text('INICIO DE SESIÓN',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700
+                )),
+              const SizedBox(height: 15),
+              const LoginForm(),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                    onPressed: (){
+
+                    },
+                    child: const Text('Olvidé mi contraseña')
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                    onPressed: (){
+                      ref.read(heightLoginProvider.notifier).state = 0.0;
+                      SystemChannels.textInput.invokeMethod('TextInput.hide');
+                      ref.read(heightRegisterProvider.notifier).state = MediaQuery.of(context).size.height;
+                    },
+                    child: const Text('Quiero registrarme')
+                ),
+              )
+            ],
+          )
+        ),
       ),
     );
   }
@@ -78,12 +136,6 @@ class _LoginFormState extends State<LoginForm> {
                 }
               },
               child: const Text('Entrar')
-          ),
-          TextButton(
-              onPressed: (){
-
-              },
-              child: const Text('¿Olvidaste tu contraseña?')
           ),
         ],
       ),

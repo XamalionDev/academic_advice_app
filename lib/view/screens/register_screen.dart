@@ -17,9 +17,38 @@ class RegisterScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final color = Theme.of(context).cardColor;
 
     return AnimatedContainer(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey,
+                offset: Offset.fromDirection(6, 0.5),
+                blurRadius: 0.3
+            ),
+            BoxShadow(
+                color: Colors.grey,
+                offset: Offset.fromDirection(6, 0.5),
+                blurRadius: 0.3
+            ),
+            BoxShadow(
+                color: Colors.grey,
+                offset: Offset.fromDirection(6, 0.5),
+                blurRadius: 0.3
+            ),
+            BoxShadow(
+                color: Colors.grey,
+                offset: Offset.fromDirection(6, 0.5),
+                blurRadius: 0.3
+            )
+          ],
+          color: color,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15)
+          )
+      ),
       height: heightRegister,
       width: widthRegister,
       duration: const Duration(milliseconds: 500),
@@ -35,7 +64,19 @@ class RegisterScreen extends ConsumerWidget {
                 },
                 icon: const Icon(Icons.arrow_drop_down)),
             const SizedBox(height: 10),
-            const RegisterForm()
+            const RegisterForm(),
+            const SizedBox(height: 15),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                  onPressed: (){
+                    ref.read(heightRegisterProvider.notifier).state = 0.0;
+                    SystemChannels.textInput.invokeMethod('TextInput.hide');
+                    ref.read(heightLoginProvider.notifier).state = heightRegister * 0.5;
+                  },
+                  child: const Text('Ya estoy registrado')
+              ),
+            )
           ],
         ),
       ),
@@ -179,14 +220,14 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 10),
           CustomPasswordField(controller: passwordController),
           const SizedBox(height: 25),
-          ElevatedButton(
+          OutlinedButton(
             onPressed: () {
               if(_formKey.currentState!.validate()) {
 
               }
             },
             child: const Text('Registrarse'),
-          ),
+          )
         ],
       )
     );

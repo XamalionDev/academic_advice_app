@@ -4,7 +4,7 @@ import 'package:academic_advice_app/view/screens/presentation_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final routerConfig = GoRouter(
-    initialLocation: '/login_screen',
+    initialLocation: '/presentation_screen',
     routes: [
       GoRoute(
           path: '/home_screen',

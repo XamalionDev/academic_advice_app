@@ -55,7 +55,7 @@ class LogosScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset('assets/logos/LogoTecnm1.png', scale: 15),
-          Image.asset('assets/logos/LogoTecHidalgo.png', scale: 40)
+          Image.asset('assets/logos/LogoTecHidalgo.png', scale: 45)
         ],
       ),
     );
@@ -104,7 +104,7 @@ class MainScreen extends ConsumerWidget {
               children: [
                 ElevatedButton.icon(
                     onPressed: (){
-                      ref.read(heightLoginProvider.notifier).state = heightScreen * 0.55;
+                      ref.read(heightLoginProvider.notifier).state = heightScreen * 0.5;
                     },
                     icon: const Icon(Icons.login_sharp),
                     label: const Text('Iniciar sesión')
@@ -124,7 +124,7 @@ class MainScreen extends ConsumerWidget {
               children: [
                 ElevatedButton.icon(
                     onPressed: (){
-                      ref.read(heightRegisterProvider.notifier).state = heightScreen * 0.8;
+                      ref.read(heightRegisterProvider.notifier).state = heightScreen;
                     },
                     icon: const Icon(Icons.app_registration_sharp),
                     label: const Text('Registrarse')
