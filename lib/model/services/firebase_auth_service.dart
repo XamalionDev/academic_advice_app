@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-User? getCurrentUser() {
+User? getCurrentUserService() {
   return FirebaseAuth.instance.currentUser;
 }
 
-Future<String?> signUpUser(String email, String password) async {
+Future<String?> signUpUserService(String email, String password) async {
   try {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
     return null;
@@ -13,7 +13,7 @@ Future<String?> signUpUser(String email, String password) async {
   }
 }
 
-Future<String?> signInUser(String email, String password) async {
+Future<String?> signInUserService(String email, String password) async {
   try {
     await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     return null;
@@ -22,14 +22,14 @@ Future<String?> signInUser(String email, String password) async {
   }
 }
 
-updateUser() {
+updateUserService() {
 
 }
 
-deleteUser() async {
+deleteUserService() async {
 
 }
 
-Future<void> signOutUser() async {
+Future<void> signOutUserService() async {
   await FirebaseAuth.instance.signOut();
 }
