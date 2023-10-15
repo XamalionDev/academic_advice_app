@@ -1,12 +1,17 @@
-import 'package:academic_advice_app/model/providers/height_provider.dart';
+import 'package:academic_advice_app/controller/auth_controller.dart';
+import 'package:academic_advice_app/controller/firestore_controller.dart';
+import 'package:academic_advice_app/model/dialogs/error_dialog.dart';
+import 'package:academic_advice_app/model/entities/user_entity.dart';
 import 'package:academic_advice_app/model/static_data/enums.dart';
 import 'package:academic_advice_app/model/static_data/lists.dart';
+import 'package:academic_advice_app/model/utils/manipule_ui.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_dropdown_field.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_password_field.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_text_field.dart';
+import 'package:academic_advice_app/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends ConsumerWidget {
   static const String routeName = 'register_screen';
@@ -59,20 +64,24 @@ class RegisterScreen extends ConsumerWidget {
           children: [
             IconButton(
                 onPressed: (){
-                  ref.read(heightRegisterProvider.notifier).state = 0.0;
-                  SystemChannels.textInput.invokeMethod('TextInput.hide');
+                  hideRegister(ref);
                 },
-                icon: const Icon(Icons.arrow_drop_down)),
+                icon: const Icon(Icons.arrow_drop_down)
+            ),
+            const Text('FORMULARIO DE REGISTRO',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700
+                )
+            ),
             const SizedBox(height: 10),
-            const RegisterForm(),
+            RegisterForm(ref: ref),
             const SizedBox(height: 15),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: (){
-                    ref.read(heightRegisterProvider.notifier).state = 0.0;
-                    SystemChannels.textInput.invokeMethod('TextInput.hide');
-                    ref.read(heightLoginProvider.notifier).state = heightRegister * 0.5;
+                    toggleLoginRegister(heightRegister * 0.5, 0.0, ref);
                   },
                   child: const Text('Ya estoy registrado')
               ),
@@ -85,14 +94,27 @@ class RegisterScreen extends ConsumerWidget {
 }
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+  final WidgetRef ref;
+  const RegisterForm({super.key, required this.ref});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  UserRoles _userRole = UserRoles.Advisee;
+  Map<String, dynamic> userData = {
+    "userType" : "",
+    "name" : "",
+    "lastName1" : "",
+    "lastName2" : "",
+    "phoneNumber" : "",
+    "gender" : "",
+    "degreeProgram" : "",
+    "semester" : "",
+    "controlNumber" : "",
+    "email" : ""
+  };
+  UserRoles _userRole = UserRoles.Asesorado;
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -102,27 +124,12 @@ class _RegisterFormState extends State<RegisterForm> {
   ValueNotifier<String> gender = ValueNotifier('--Seleccionar--');
   ValueNotifier<String> degreeProgram = ValueNotifier('--Seleccionar--');
   ValueNotifier<String> semester = ValueNotifier('--Seleccionar--');
-  final numControlController = TextEditingController();
+  final controlNumberController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  _genderListener(){
-
-  }
-  _degreeProgramListener() {
-
-  }
-
-  _semesterListener() {
-
-  }
-
   @override
   void dispose() {
-    gender.removeListener(_genderListener);
-    degreeProgram.removeListener(_degreeProgramListener);
-    semester.removeListener(_semesterListener);
-
     nameController.dispose();
     lastName1Controller.dispose();
     lastName2Controller.dispose();
@@ -130,7 +137,7 @@ class _RegisterFormState extends State<RegisterForm> {
     gender.dispose();
     degreeProgram.dispose();
     semester.dispose();
-    numControlController.dispose();
+    controlNumberController.dispose();
     emailController.dispose();
     passwordController.dispose();
 
@@ -139,10 +146,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    gender.addListener(_genderListener);
-    degreeProgram.addListener(_degreeProgramListener);
-    semester.addListener(_semesterListener);
-
     return Form(
       key: _formKey,
       child: Column(
@@ -152,26 +155,25 @@ class _RegisterFormState extends State<RegisterForm> {
 /******************************************************************************/
           const Text('Perfil:'),
           const Divider(
-            color: Colors.black54,
             thickness: 1,
           ),
           RadioListTile(
             title: const Text('Estudiante'),
-            value: UserRoles.Advisee,
+            value: UserRoles.Asesorado,
             groupValue: _userRole,
             onChanged: (value){
               setState(() {
-                  _userRole = UserRoles.Advisee;
+                  _userRole = UserRoles.Asesorado;
               });
             }
           ),
           RadioListTile(
             title: const Text('Asesor par'),
-            value: UserRoles.Advisor,
+            value: UserRoles.Asesor,
             groupValue: _userRole,
             onChanged: (value){
               setState(() {
-                _userRole = UserRoles.Advisor;
+                _userRole = UserRoles.Asesor;
               });
             }
           ),
@@ -180,7 +182,6 @@ class _RegisterFormState extends State<RegisterForm> {
 /******************************************************************************/
           const Text('Datos personales:'),
           const Divider(
-            color: Colors.black54,
             thickness: 1,
           ),
           const SizedBox(height: 10),
@@ -188,7 +189,7 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 10),
           CustomTextField(label: 'Primer apellido', controller: lastName1Controller, inputType: TextInputType.text, empty: false),
           const SizedBox(height: 10),
-          CustomTextField(label: 'Segundo apellido (Opcional)', controller: lastName2Controller, inputType: TextInputType.text, empty: true),
+          CustomTextField(label: 'Segundo apellido (opcional)', controller: lastName2Controller, inputType: TextInputType.text, empty: true),
           const SizedBox(height: 10),
           CustomTextField(label: 'Teléfono', controller: phoneNumberController, inputType: TextInputType.phone, empty: false),
           const SizedBox(height: 10),
@@ -198,7 +199,6 @@ class _RegisterFormState extends State<RegisterForm> {
 /******************************************************************************/
           const Text('Datos escolares:'),
           const Divider(
-            color: Colors.black54,
             thickness: 1,
           ),
           const SizedBox(height: 10),
@@ -206,13 +206,12 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 10),
           CustomDropdownField(label: 'Semestre', items: semesterList, dropdownValue: semester),
           const SizedBox(height: 10),
-          CustomTextField(label: 'Número de control', controller: numControlController, inputType: TextInputType.text, empty: false),
+          CustomTextField(label: 'Número de control', controller: controlNumberController, inputType: TextInputType.text, empty: false),
           const SizedBox(height: 25),
 
 /******************************************************************************/
           const Text('Credenciales:'),
           const Divider(
-            color: Colors.black54,
             thickness: 1,
           ),
           const SizedBox(height: 10),
@@ -223,7 +222,34 @@ class _RegisterFormState extends State<RegisterForm> {
           OutlinedButton(
             onPressed: () {
               if(_formKey.currentState!.validate()) {
+                String email = emailController.text.trim();
+                String password = passwordController.text.trim();
 
+                userData['userType'] = _userRole.name;
+                userData['name'] = nameController.text.trim();
+                userData['lastName1'] = lastName1Controller.text.trim();
+                userData['lastName2'] = lastName2Controller.text.trim();
+                userData['phoneNumber'] = phoneNumberController.text.trim();
+                userData['gender'] = gender.value.trim();
+                userData['degreeProgram'] = degreeProgram.value.trim();
+                userData['semester'] = semester.value;
+                userData['controlNumber'] = controlNumberController.text.trim();
+                userData['email'] = email;
+
+                signUp(email, password).then((responseSignUp) {
+                  if(responseSignUp == 'Success') {
+                    addData(UserEntity.fromJson(userData), widget.ref)
+                        .then((responseAddData) {
+                          if (responseAddData){
+                            context.pushNamed(HomeScreen.routeName);
+                            _formKey.currentState?.dispose();
+                            hideRegister(widget.ref);
+                          }
+                    });
+                  } else {
+                    openDialog(context, 'Error de registro', responseSignUp);
+                  }
+                });
               }
             },
             child: const Text('Registrarse'),

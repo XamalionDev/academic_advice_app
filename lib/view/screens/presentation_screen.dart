@@ -1,4 +1,5 @@
 import 'package:academic_advice_app/model/providers/height_provider.dart';
+import 'package:academic_advice_app/model/utils/manipule_ui.dart';
 import 'package:academic_advice_app/view/screens/login_screen.dart';
 import 'package:academic_advice_app/view/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,8 @@ class MainScreen extends ConsumerWidget {
               children: [
                 ElevatedButton.icon(
                     onPressed: (){
-                      ref.read(heightLoginProvider.notifier).state = heightScreen * 0.5;
+                      hideRegister(ref);
+                      showLogin(heightScreen*0.5, ref);
                     },
                     icon: const Icon(Icons.login_sharp),
                     label: const Text('Iniciar sesión')
@@ -124,7 +126,8 @@ class MainScreen extends ConsumerWidget {
               children: [
                 ElevatedButton.icon(
                     onPressed: (){
-                      ref.read(heightRegisterProvider.notifier).state = heightScreen;
+                      hideLogin(ref);
+                      showRegister(heightScreen, ref);
                     },
                     icon: const Icon(Icons.app_registration_sharp),
                     label: const Text('Registrarse')

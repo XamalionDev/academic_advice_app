@@ -9,9 +9,9 @@ enum DaysOfTheWeek {
 }
 
 enum UserRoles {
-  Admin,
-  Advisor,
-  Advisee
+  Administrador,
+  Asesor,
+  Asesorado
 }
 
 enum Genders {
