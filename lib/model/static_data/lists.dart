@@ -4,7 +4,7 @@ final List<String> gendersList = <String>[
 
 final List<String> degreeProgramList = <String>[
   '--Seleccionar--',
-  'Ingeniería en Sistemas Compuatacionales',
+  'Ingeniería en Sistemas Computacionales',
   'Ingeniería en Tecnologías de la Información',
   'Ingeniería Mecatrónica',
   'Ingeniería Industrial',

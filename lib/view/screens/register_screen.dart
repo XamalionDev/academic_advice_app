@@ -5,8 +5,10 @@ import 'package:academic_advice_app/model/entities/user_entity.dart';
 import 'package:academic_advice_app/model/static_data/enums.dart';
 import 'package:academic_advice_app/model/static_data/lists.dart';
 import 'package:academic_advice_app/model/utils/manipule_ui.dart';
+import 'package:academic_advice_app/model/utils/set_messages.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_dropdown_field.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_password_field.dart';
+import 'package:academic_advice_app/view/custom_widgets/custom_phone_field.dart';
 import 'package:academic_advice_app/view/custom_widgets/custom_text_field.dart';
 import 'package:academic_advice_app/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -191,7 +193,7 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 10),
           CustomTextField(label: 'Segundo apellido (opcional)', controller: lastName2Controller, inputType: TextInputType.text, empty: true),
           const SizedBox(height: 10),
-          CustomTextField(label: 'Teléfono', controller: phoneNumberController, inputType: TextInputType.phone, empty: false),
+          CustomPhoneField(label: 'Teléfono', controller: phoneNumberController),
           const SizedBox(height: 10),
           CustomDropdownField(label: 'Género', items: gendersList, dropdownValue: gender),
           const SizedBox(height: 25),
@@ -217,7 +219,7 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(height: 10),
           CustomTextField(label: 'Correo electrónico', controller: emailController, inputType: TextInputType.emailAddress, empty: false),
           const SizedBox(height: 10),
-          CustomPasswordField(controller: passwordController),
+          CustomPasswordField(controller: passwordController, validate: true),
           const SizedBox(height: 25),
           OutlinedButton(
             onPressed: () {
@@ -247,7 +249,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           }
                     });
                   } else {
-                    openDialog(context, 'Error de registro', responseSignUp);
+                    openDialog(context, 'Error de registro', getErrorMessage(responseSignUp));
                   }
                 });
               }

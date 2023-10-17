@@ -1,11 +1,13 @@
 import 'package:academic_advice_app/model/validations/forms_validation.dart';
+import 'package:academic_advice_app/view/design_functions/design_functions.dart';
 import 'package:flutter/material.dart';
 
 class CustomPasswordField extends StatefulWidget {
   final TextEditingController controller;
+  final bool validate;
   const CustomPasswordField({
     super.key,
-    required this.controller
+    required this.controller, required this.validate
   });
 
   @override
@@ -20,7 +22,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
     return TextFormField(
       controller: widget.controller,
       keyboardType: TextInputType.visiblePassword,
-      validator: validatePassword,
+      validator: widget.validate ? validatePassword : validateInput,
       decoration: InputDecoration(
           labelText: 'Contraseña',
           border: setBorder(),

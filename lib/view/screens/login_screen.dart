@@ -121,7 +121,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           CustomTextField(label: 'Email', controller: emailController, inputType: TextInputType.emailAddress, empty: false),
           const SizedBox(height: 10),
-          CustomPasswordField(controller: passwordController),
+          CustomPasswordField(controller: passwordController, validate: false),
           const SizedBox(height: 20),
           OutlinedButton(
               onPressed: (){
@@ -132,7 +132,7 @@ class _LoginFormState extends State<LoginForm> {
                       hideLogin(widget.ref);
                       context.pushNamed(HomeScreen.routeName);
                     }else{
-                      openDialog(context, 'Error de inicio de sesión', value);
+                      openDialog(context, 'Error de inicio de sesión', 'Correo o contraseña incorrectos.');
                     }
                   });
                 }

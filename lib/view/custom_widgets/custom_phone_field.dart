@@ -2,35 +2,31 @@ import 'package:academic_advice_app/model/validations/forms_validation.dart';
 import 'package:academic_advice_app/view/design_functions/design_functions.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomPhoneField extends StatefulWidget {
   final TextEditingController controller;
-  final TextInputType inputType;
   final String label;
-  final bool empty;
 
-  const CustomTextField({
+  const CustomPhoneField({
     super.key,
     required this.label,
     required this.controller,
-    required this.inputType,
-    required this.empty
   });
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomPhoneField> createState() => _CustomPhoneFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomPhoneFieldState extends State<CustomPhoneField> {
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      keyboardType: widget.inputType,
-      validator: widget.empty ? null : validateInput,
+      keyboardType: TextInputType.phone,
+      validator: validatePhoneNumber,
       decoration: InputDecoration(
-        labelText: widget.label,
-        border: setBorder()
+          labelText: widget.label,
+          border: setBorder()
       ),
     );
   }
