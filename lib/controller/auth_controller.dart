@@ -16,3 +16,7 @@ Future<bool> getUser() async {
   //String? email = getCurrentUser()?.email;
   return (getCurrentUserService()?.email == null) ? false : true;
 }
+
+Future<String> resetPassword(String email) async {
+  return await resetPasswordService(email) ?? 'Success';
+}

@@ -75,7 +75,8 @@ class LoginScreen extends ConsumerWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                     onPressed: (){
-
+                      hideLogin(ref);
+                      showRecoverPassword(heightLogin*0.8, ref);
                     },
                     child: const Text('Olvidé mi contraseña',  style: TextStyle(decoration: TextDecoration.underline))
                 ),

@@ -22,6 +22,15 @@ Future<String?> signInUserService(String email, String password) async {
   }
 }
 
+Future<String?> resetPasswordService(String email) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    return null;
+  } on FirebaseAuthException catch(ex) {
+    return ex.code;
+  }
+}
+
 updateUserService() {
 
 }

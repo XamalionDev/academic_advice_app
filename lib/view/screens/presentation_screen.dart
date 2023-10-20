@@ -1,6 +1,7 @@
 import 'package:academic_advice_app/model/providers/height_provider.dart';
 import 'package:academic_advice_app/model/utils/manipule_ui.dart';
 import 'package:academic_advice_app/view/screens/login_screen.dart';
+import 'package:academic_advice_app/view/screens/recover_password_screen.dart';
 import 'package:academic_advice_app/view/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,8 +13,10 @@ class PresentationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final widthScreen = MediaQuery.of(context).size.width;
+
     final heightLogin = ref.watch(heightLoginProvider);
     final heightRegister = ref.watch(heightRegisterProvider);
+    final heightRecoverPassword = ref.watch(heightRecoverPasswordProvider);
 
     return Scaffold(
       body: Stack(
@@ -37,6 +40,12 @@ class PresentationScreen extends ConsumerWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: RegisterScreen(heightRegister: heightRegister, widthRegister: widthScreen),
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: RecoverPasswordScreen(height: heightRecoverPassword, width: widthScreen),
             ),
           )
         ],
