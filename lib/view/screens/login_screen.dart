@@ -77,7 +77,7 @@ class LoginScreen extends ConsumerWidget {
                     onPressed: (){
 
                     },
-                    child: const Text('Olvidé mi contraseña')
+                    child: const Text('Olvidé mi contraseña',  style: TextStyle(decoration: TextDecoration.underline))
                 ),
               ),
               Align(
@@ -86,7 +86,7 @@ class LoginScreen extends ConsumerWidget {
                     onPressed: (){
                       toggleLoginRegister(0.0, MediaQuery.of(context).size.height, ref);
                     },
-                    child: const Text('Quiero registrarme')
+                    child: const Text('Quiero registrarme', style: TextStyle(decoration: TextDecoration.underline))
                 ),
               )
             ],

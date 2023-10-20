@@ -1,5 +1,6 @@
 import 'package:academic_advice_app/controller/auth_controller.dart';
 import 'package:academic_advice_app/view/screens/presentation_screen.dart';
+import 'package:academic_advice_app/view/screens/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +11,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Inicio'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,6 +29,7 @@ class HomeScreen extends StatelessWidget {
           ],
         )
       ),
+      drawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }

@@ -85,7 +85,7 @@ class RegisterScreen extends ConsumerWidget {
                   onPressed: (){
                     toggleLoginRegister(heightRegister * 0.5, 0.0, ref);
                   },
-                  child: const Text('Ya estoy registrado')
+                  child: const Text('Ya estoy registrado', style: TextStyle(decoration: TextDecoration.underline))
               ),
             )
           ],
