@@ -1,6 +1,7 @@
 import 'package:academic_advice_app/controller/auth_controller.dart';
 import 'package:academic_advice_app/view/design_functions/menu_items.dart';
 import 'package:academic_advice_app/view/screens/presentation_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,11 +15,13 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
+  final userEmail = FirebaseAuth.instance.currentUser?.email;
+
   int navDrawerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final hasNotch = MediaQuery.of(context).padding.top > 35;
+    //final hasNotch = MediaQuery.of(context).padding.top > 35;
 
     return NavigationDrawer(
         selectedIndex: navDrawerIndex,
@@ -32,16 +35,28 @@ class _SideMenuState extends State<SideMenu> {
           widget.scaffoldKey.currentState?.closeDrawer();
         },
         children: [
-          const DrawerHeader(child: Text('Header')),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 25, 16, 10),
-              child: const Text(
-                'Menu lateral',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24),
+          DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage('assets/icons/UserIcon.png'), // o NetworkImage('https://example.com/profile.jpg')
+                    backgroundColor: Colors.transparent,
+                  ),
+                  const SizedBox(height: 5),
+                  const Text('ITSCH'),
+                  Text(userEmail!)
+                ],
               ),
+          ),
+          const Center(
+            child: Text(
+              'Menu',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
             ),
           ),
           ...appMenuItems.sublist(0, 2).map((item) =>
