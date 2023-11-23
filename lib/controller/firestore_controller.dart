@@ -9,7 +9,7 @@ Future<bool> addData(UserEntity userData, WidgetRef ref) async {
     await addUserDataService(userData);
     ref.read(userDataProvider.notifier).state = userData;
     return true;
-  } on FirebaseException catch (ex){
+  } on FirebaseException {
     return false;
   }
 }
